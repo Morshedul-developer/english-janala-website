@@ -8,7 +8,13 @@ const loadLevelWords = (id) => {
     const url = `https://openapi.programming-hero.com/api/level/${id}`;
     fetch(url)
     .then(res=>res.json())
-    .then(data=>displayWords(data.data));
+    .then(data=>{
+        const clickedBtn = document.getElementById(`btn-${id}`);
+        const allBtns = document.querySelectorAll(".btn-lesson");
+        allBtns.forEach(btn=>btn.classList.add("btn-outline"));
+        clickedBtn.classList.remove("btn-outline");
+        displayWords(data.data);
+    });
 }
 
 const displayLessons = (lessons) => {
@@ -18,7 +24,7 @@ const displayLessons = (lessons) => {
   for (const lesson of lessons) {
     const btnDiv = document.createElement("div");
     btnDiv.innerHTML = `
-    <button onclick="loadLevelWords('${lesson.level_no}')" class="btn btn-outline btn-primary"><i class="fa-solid fa-book-open"></i> Lesson -${lesson.level_no}</button>
+    <button id="btn-${lesson.level_no}" onclick="loadLevelWords('${lesson.level_no}')" class="btn btn-outline btn-primary btn-lesson"><i class="fa-solid fa-book-open"></i> Lesson -${lesson.level_no}</button>
     `;
     lessonContainer.appendChild(btnDiv);
   }
@@ -45,7 +51,7 @@ const displayWords = (words) => {
         <div class="space-y-6">
           <h2 class="text-[32px] font-bold">${word.word ? word.word : "কোনো word পাওয়া যায়নি"}</h2>
           <p class="text-[20px] font-medium">Meaning / Pronunciation</p>
-          <strong class="font-bangla text-[24px] font-semibold">"${word.meaning ? word.meaning : "কোনো meaning পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "কোনো pronunciation পাওয়া যায়নি"}"</strong>
+          <strong class="font-bangla text-[24px] font-semibold">"${word.meaning ? word.meaning : "অর্থ পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "কোনো pronunciation পাওয়া যায়নি"}"</strong>
         </div>
         <div class="flex justify-between items-center">
           <button class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-circle-info text-[16px]"></i></button>
