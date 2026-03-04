@@ -28,14 +28,24 @@ const displayWords = (words) => {
     const wordContainer = document.getElementById('word-container');
     wordContainer.innerHTML = '';
 
+    if(words.length == 0) {
+        wordContainer.innerHTML = `
+        <div class="col-span-full text-center py-16 space-y-4">
+        <img class="mx-auto" src="./assets/alert-error.png" alt="error image">
+        <p class="font-bangla text-gray-600">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
+        <strong class="font-bangla text-4xl font-medium">নেক্সট Lesson এ যান</strong>
+    </div>
+        `;
+    }
+
     words.forEach(word => {
         const div = document.createElement('div');
         div.innerHTML = `
         <div class="bg-white shadow-sm p-14 rounded-xl text-center space-y-14 h-full">
         <div class="space-y-6">
-          <h2 class="text-[32px] font-bold">${word.word}</h2>
+          <h2 class="text-[32px] font-bold">${word.word ? word.word : "কোনো word পাওয়া যায়নি"}</h2>
           <p class="text-[20px] font-medium">Meaning / Pronunciation</p>
-          <strong class="font-bangla text-[30px] font-semibold">"${word.meaning} / ${word.pronunciation}"</strong>
+          <strong class="font-bangla text-[24px] font-semibold">"${word.meaning ? word.meaning : "কোনো meaning পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "কোনো pronunciation পাওয়া যায়নি"}"</strong>
         </div>
         <div class="flex justify-between items-center">
           <button class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-circle-info text-[16px]"></i></button>
