@@ -54,7 +54,7 @@ const displayWords = (words) => {
           <strong class="font-bangla text-[24px] font-semibold">"${word.meaning ? word.meaning : "অর্থ পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "কোনো pronunciation পাওয়া যায়নি"}"</strong>
         </div>
         <div class="flex justify-between items-center">
-          <button class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-circle-info text-[16px]"></i></button>
+          <button onclick="my_modal_5.showModal()" class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-circle-info text-[16px]"></i></button>
           <button class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-volume-high text-[16px]"></i></button>
         </div>
       </div>
