@@ -31,7 +31,17 @@ const displayWords = (words) => {
     words.forEach(word => {
         const div = document.createElement('div');
         div.innerHTML = `
-        ${word.meaning}
+        <div class="bg-white shadow-sm p-14 rounded-xl text-center space-y-14 h-full">
+        <div class="space-y-6">
+          <h2 class="text-[32px] font-bold">${word.word}</h2>
+          <p class="text-[20px] font-medium">Meaning / Pronunciation</p>
+          <strong class="font-bangla text-[30px] font-semibold">"${word.meaning} / ${word.pronunciation}"</strong>
+        </div>
+        <div class="flex justify-between items-center">
+          <button class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-circle-info text-[16px]"></i></button>
+          <button class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-volume-high text-[16px]"></i></button>
+        </div>
+      </div>
         `;
         wordContainer.append(div);
     });
