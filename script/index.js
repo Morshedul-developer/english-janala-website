@@ -5,21 +5,60 @@ const loadLessons = () => {
 };
 
 const loadLevelWords = (id) => {
-    const url = `https://openapi.programming-hero.com/api/level/${id}`;
-    fetch(url)
-    .then(res=>res.json())
-    .then(data=>{
-        const clickedBtn = document.getElementById(`btn-${id}`);
-        const allBtns = document.querySelectorAll(".btn-lesson");
-        allBtns.forEach(btn=>btn.classList.add("btn-outline"));
-        clickedBtn.classList.remove("btn-outline");
-        displayWords(data.data);
+  const url = `https://openapi.programming-hero.com/api/level/${id}`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      const clickedBtn = document.getElementById(`btn-${id}`);
+      const allBtns = document.querySelectorAll(".btn-lesson");
+      allBtns.forEach((btn) => btn.classList.add("btn-outline"));
+      clickedBtn.classList.remove("btn-outline");
+      displayWords(data.data);
     });
-}
+};
+
+const loadWordDetail = async (id) => {
+  const url = `https://openapi.programming-hero.com/api/word/${id}`;
+  const res = await fetch(url);
+  const details = await res.json();
+  showDetails(details.data);
+};
+
+const showDetails = (details) => {
+  const detailsContainer = document.getElementById('details-container');
+  detailsContainer.innerHTML=`
+  <div class="p-4 border border-gray-100 rounded-xl space-y-8">
+            <div>
+              <h3 class="text-[32px] font-semibold">
+                ${details.word} (<i class="fa-solid fa-microphone-lines"></i> : ${details.pronunciation})
+              </h3>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-[22px] font-semibold">Meaning</h4>
+              <p class="text-[20px] font-medium">${details.meaning}</p>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-[22px] font-semibold">Example</h4>
+              <p class="text-[20px]">
+                ${details.sentence}
+              </p>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-[22px] font-medium">সমার্থক শব্দ গুলো</h4>
+              <div class="flex gap-4">
+                <p class="text-[16px] px-1.5 py-3 bg-[#EDF7FF] border border-gray-100 rounded-md">Enthusiastic</p>
+                <p class="text-[16px] px-1.5 py-3 bg-[#EDF7FF] border border-gray-100 rounded-md">Enthusiastic</p>
+                <p class="text-[16px] px-1.5 py-3 bg-[#EDF7FF] border border-gray-100 rounded-md">Enthusiastic</p>
+              </div>
+            </div>
+          </div>
+  `;
+  document.getElementById('show_modal').showModal();
+};
 
 const displayLessons = (lessons) => {
   const lessonContainer = document.getElementById("lesson-container");
-  lessonContainer.innerHTML = '';
+  lessonContainer.innerHTML = "";
 
   for (const lesson of lessons) {
     const btnDiv = document.createElement("div");
@@ -31,22 +70,22 @@ const displayLessons = (lessons) => {
 };
 
 const displayWords = (words) => {
-    const wordContainer = document.getElementById('word-container');
-    wordContainer.innerHTML = '';
+  const wordContainer = document.getElementById("word-container");
+  wordContainer.innerHTML = "";
 
-    if(words.length == 0) {
-        wordContainer.innerHTML = `
+  if (words.length == 0) {
+    wordContainer.innerHTML = `
         <div class="col-span-full text-center py-16 space-y-4">
         <img class="mx-auto" src="./assets/alert-error.png" alt="error image">
         <p class="font-bangla text-gray-600">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
         <strong class="font-bangla text-4xl font-medium">নেক্সট Lesson এ যান</strong>
     </div>
         `;
-    }
+  }
 
-    words.forEach(word => {
-        const div = document.createElement('div');
-        div.innerHTML = `
+  words.forEach((word) => {
+    const div = document.createElement("div");
+    div.innerHTML = `
         <div class="bg-white shadow-sm p-14 rounded-xl text-center space-y-14 h-full">
         <div class="space-y-6">
           <h2 class="text-[32px] font-bold">${word.word ? word.word : "কোনো word পাওয়া যায়নি"}</h2>
@@ -54,13 +93,13 @@ const displayWords = (words) => {
           <strong class="font-bangla text-[24px] font-semibold">"${word.meaning ? word.meaning : "অর্থ পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "কোনো pronunciation পাওয়া যায়নি"}"</strong>
         </div>
         <div class="flex justify-between items-center">
-          <button onclick="my_modal_5.showModal()" class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-circle-info text-[16px]"></i></button>
+          <button onclick="loadWordDetail(${word.id})" class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-circle-info text-[16px]"></i></button>
           <button class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-volume-high text-[16px]"></i></button>
         </div>
       </div>
         `;
-        wordContainer.append(div);
-    });
-}
+    wordContainer.append(div);
+  });
+};
 
 loadLessons();
