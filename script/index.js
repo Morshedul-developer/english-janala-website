@@ -25,8 +25,8 @@ const loadWordDetail = async (id) => {
 };
 
 const showDetails = (details) => {
-  const detailsContainer = document.getElementById('details-container');
-  detailsContainer.innerHTML=`
+  const detailsContainer = document.getElementById("details-container");
+  detailsContainer.innerHTML = `
   <div class="p-4 border border-gray-100 rounded-xl space-y-8">
             <div>
               <h3 class="text-[32px] font-semibold">
@@ -46,14 +46,12 @@ const showDetails = (details) => {
             <div class="space-y-2">
               <h4 class="text-[22px] font-medium">সমার্থক শব্দ গুলো</h4>
               <div class="flex gap-4">
-                <p class="text-[16px] px-1.5 py-3 bg-[#EDF7FF] border border-gray-100 rounded-md">Enthusiastic</p>
-                <p class="text-[16px] px-1.5 py-3 bg-[#EDF7FF] border border-gray-100 rounded-md">Enthusiastic</p>
-                <p class="text-[16px] px-1.5 py-3 bg-[#EDF7FF] border border-gray-100 rounded-md">Enthusiastic</p>
+                ${showSynonyms(details.synonyms)}
               </div>
             </div>
           </div>
   `;
-  document.getElementById('show_modal').showModal();
+  document.getElementById("show_modal").showModal();
 };
 
 const displayLessons = (lessons) => {
@@ -100,6 +98,11 @@ const displayWords = (words) => {
         `;
     wordContainer.append(div);
   });
+};
+
+const showSynonyms = (arr) => {
+  const newElement = arr.map(elem => `<span class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70">${elem}</span>`);
+  return (newElement.join(' '));
 };
 
 loadLessons();
