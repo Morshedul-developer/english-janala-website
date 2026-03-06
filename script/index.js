@@ -10,12 +10,16 @@ const loadLevelWords = (id) => {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
+      removeActive();
       const clickedBtn = document.getElementById(`btn-${id}`);
-      const allBtns = document.querySelectorAll(".btn-lesson");
-      allBtns.forEach((btn) => btn.classList.add("btn-outline"));
       clickedBtn.classList.remove("btn-outline");
       displayWords(data.data);
     });
+};
+
+const removeActive = () => {
+  const allBtns = document.querySelectorAll(".btn-lesson");
+  allBtns.forEach((btn) => btn.classList.add("btn-outline"));
 };
 
 const loadWordDetail = async (id) => {
@@ -81,8 +85,8 @@ const displayWords = (words) => {
         <strong class="font-bangla text-4xl font-medium">নেক্সট Lesson এ যান</strong>
     </div>
         `;
-        showSpinner(false);
-        return;
+    showSpinner(false);
+    return;
   }
 
   words.forEach((word) => {
@@ -101,7 +105,7 @@ const displayWords = (words) => {
       </div>
         `;
     wordContainer.append(div);
-    showSpinner(false)
+    showSpinner(false);
   });
 };
 
@@ -115,13 +119,28 @@ const showSynonyms = (arr) => {
 
 const showSpinner = (status) => {
   if (status == true) {
-    document.getElementById('spinner').classList.remove('hidden');
-    document.getElementById('word-container').classList.add('hidden');
-  }
-  else{
-    document.getElementById('spinner').classList.add('hidden');
-    document.getElementById('word-container').classList.remove('hidden');
+    document.getElementById("spinner").classList.remove("hidden");
+    document.getElementById("word-container").classList.add("hidden");
+  } else {
+    document.getElementById("spinner").classList.add("hidden");
+    document.getElementById("word-container").classList.remove("hidden");
   }
 };
 
 loadLessons();
+
+document.getElementById("btn-search").addEventListener("click", () => {
+  removeActive();
+  const input = document.getElementById("btn-input");
+  searchValue = input.value.trim().toLowerCase();
+
+  fetch("https://openapi.programming-hero.com/api/words/all")
+    .then((res) => res.json())
+    .then((data) => {
+      const allWords = data.data;
+      const filterWords = allWords.filter((word) =>
+        word.word.toLowerCase().includes(searchValue),
+      );
+      displayWords(filterWords);
+    });
+});
