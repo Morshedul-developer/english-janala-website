@@ -100,7 +100,7 @@ const displayWords = (words) => {
         </div>
         <div class="flex justify-between items-center">
           <button onclick="loadWordDetail(${word.id})" class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-circle-info text-[16px]"></i></button>
-          <button class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-volume-high text-[16px]"></i></button>
+          <button onclick="pronounceWord('${word.word}')" class="btn bg-[#1A91FF]/10 hover:bg-[#1A91FF]/70"><i class="fa-solid fa-volume-high text-[16px]"></i></button>
         </div>
       </div>
         `;
@@ -126,6 +126,12 @@ const showSpinner = (status) => {
     document.getElementById("word-container").classList.remove("hidden");
   }
 };
+
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
 
 loadLessons();
 
